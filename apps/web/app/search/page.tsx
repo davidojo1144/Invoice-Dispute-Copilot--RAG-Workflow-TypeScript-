@@ -1,6 +1,8 @@
 'use client';
-
 import { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card';
+import { Table, THead, TBody, TR, TH, TD } from '../../components/ui/table';
+import { Button } from '../../components/ui/button';
 
 export default function Page() {
   const [query, setQuery] = useState('');
@@ -12,36 +14,45 @@ export default function Page() {
     setResults(json.hits ?? []);
   }
   return (
-    <section>
-      <div className="card" style={{ marginBottom: 16 }}>
-        <h2>Search</h2>
-        <input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Enter query..." />
-        &nbsp;&nbsp;
-        <button className="btn" onClick={run}>Search</button>
-      </div>
-      <div className="card">
-        <h2>Results</h2>
-        {results.length === 0 && <p className="muted">No results</p>}
-        {results.length > 0 && (
-          <table className="table">
-            <thead>
-              <tr>
-                <th>Doc</th><th>Source</th><th>Snippet</th><th>Score</th>
-              </tr>
-            </thead>
-            <tbody>
-              {results.map((r, i) => (
-                <tr key={i}>
-                  <td>{r.doc_id}</td>
-                  <td>{r.source}</td>
-                  <td>{r.snippet}</td>
-                  <td>{r.score}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
-      </div>
+    <section className="space-y-4">
+      <Card>
+        <CardHeader>
+          <CardTitle>Search</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex gap-3">
+            <input className="rounded-lg border border-border bg-card px-2 py-1 flex-1" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Enter query..." />
+            <Button onClick={run}>Search</Button>
+          </div>
+        </CardContent>
+      </Card>
+      <Card>
+        <CardHeader>
+          <CardTitle>Results</CardTitle>
+        </CardHeader>
+        <CardContent>
+          {results.length === 0 && <p className="text-muted">No results</p>}
+          {results.length > 0 && (
+            <Table>
+              <THead>
+                <TR>
+                  <TH>Doc</TH><TH>Source</TH><TH>Snippet</TH><TH>Score</TH>
+                </TR>
+              </THead>
+              <TBody>
+                {results.map((r, i) => (
+                  <TR key={i}>
+                    <TD>{r.doc_id}</TD>
+                    <TD>{r.source}</TD>
+                    <TD>{r.snippet}</TD>
+                    <TD>{r.score}</TD>
+                  </TR>
+                ))}
+              </TBody>
+            </Table>
+          )}
+        </CardContent>
+      </Card>
     </section>
   );
 }

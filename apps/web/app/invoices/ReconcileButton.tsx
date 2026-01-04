@@ -1,4 +1,6 @@
 'use client';
+import { toast } from 'sonner';
+import { Button } from '../../components/ui/button';
 
 export function ReconcileButton({ id }: { id: string }) {
   async function handle() {
@@ -10,10 +12,10 @@ export function ReconcileButton({ id }: { id: string }) {
         body: JSON.stringify({ version: 1 }),
       });
       const json = await res.json();
-      alert(`Accepted: ${json.accepted} key=${json.reconcile_key}`);
-    } catch (e) {
-      alert('Failed to enqueue reconciliation');
+      toast.success(`Accepted: ${json.reconcile_key}`);
+    } catch {
+      toast.error('Failed to enqueue reconciliation');
     }
   }
-  return <button className="btn" onClick={handle}>Reconcile</button>;
+  return <Button onClick={handle}>Reconcile</Button>;
 }

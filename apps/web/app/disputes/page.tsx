@@ -9,37 +9,46 @@ async function getDisputes(cursor?: string) {
   return res.json();
 }
 
+import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card';
+import { Table, TBody, THead, TH, TR, TD } from '../../components/ui/table';
+
 export default async function Page() {
   const data = await getDisputes();
   const items = data.items ?? [];
   return (
-    <section className="card">
-      <h2>Disputes</h2>
-      <table className="table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Invoice</th>
-            <th>Status</th>
-            <th>Reason</th>
-            <th>Created</th>
-          </tr>
-        </thead>
-        <tbody>
-          {items.map((d: any) => (
-            <tr key={d.id}>
-              <td>{d.id}</td>
-              <td>{d.invoiceId ?? d.invoice_id}</td>
-              <td>{d.status}</td>
-              <td>{d.reason ?? '-'}</td>
-              <td>{d.createdAt ?? d.created_at}</td>
-            </tr>
-          ))}
-          {items.length === 0 && (
-            <tr><td colSpan={5} className="muted">No disputes</td></tr>
-          )}
-        </tbody>
-      </table>
+    <section>
+      <Card>
+        <CardHeader>
+          <CardTitle>Disputes</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Table>
+            <THead>
+              <TR>
+                <TH>ID</TH>
+                <TH>Invoice</TH>
+                <TH>Status</TH>
+                <TH>Reason</TH>
+                <TH>Created</TH>
+              </TR>
+            </THead>
+            <TBody>
+              {items.map((d: any) => (
+                <TR key={d.id}>
+                  <TD>{d.id}</TD>
+                  <TD>{d.invoiceId ?? d.invoice_id}</TD>
+                  <TD>{d.status}</TD>
+                  <TD>{d.reason ?? '-'}</TD>
+                  <TD>{d.createdAt ?? d.created_at}</TD>
+                </TR>
+              ))}
+              {items.length === 0 && (
+                <TR><TD colSpan={5} className="text-muted">No disputes</TD></TR>
+              )}
+            </TBody>
+          </Table>
+        </CardContent>
+      </Card>
     </section>
   );
 }
