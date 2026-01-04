@@ -2,7 +2,27 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "../../packages/tsconfig/tsconfig.json",
   "compilerOptions": {
-    "jsx": "react-jsx",
-    "types": ["node"]
-  }
+    "jsx": "preserve",
+    "types": [
+      "node"
+    ],
+    "allowJs": true,
+    "noEmit": true,
+    "incremental": true,
+    "isolatedModules": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
+  },
+  "include": [
+    "next-env.d.ts",
+    ".next/types/**/*.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
