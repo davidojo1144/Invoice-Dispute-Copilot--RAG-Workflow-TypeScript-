@@ -1,0 +1,107 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Tenant {
+  id        String   @id @default(cuid())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  vendors   Vendor[]
+  invoices  Invoice[]
+  documents Document[]
+}
+
+model Vendor {
+  id        String   @id @default(cuid())
+  tenant    Tenant   @relation(fields: [tenantId], references: [id])
+  tenantId  String
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  invoices  Invoice[]
+}
+
+model Invoice {
+  id           String             @id @default(cuid())
+  tenant       Tenant             @relation(fields: [tenantId], references: [id])
+  tenantId     String
+  vendor       Vendor             @relation(fields: [vendorId], references: [id])
+  vendorId     String
+  status       InvoiceStatus      @default(OPEN)
+  totalAmount  Decimal            @db.Decimal(18, 4)
+  version      Int                @default(1)
+  createdAt    DateTime           @default(now())
+  updatedAt    DateTime           @updatedAt
+  lineItems    InvoiceLineItem[]
+  disputes     Dispute[]
+
+  @@index([tenantId, status])
+}
+
+model InvoiceLineItem {
+  id         String   @id @default(cuid())
+  invoice    Invoice  @relation(fields: [invoiceId], references: [id])
+  invoiceId  String
+  description String
+  quantity    Int
+  unitPrice   Decimal  @db.Decimal(18, 4)
+  total       Decimal  @db.Decimal(18, 4)
+}
+
+model Dispute {
+  id           String        @id @default(cuid())
+  invoice      Invoice       @relation(fields: [invoiceId], references: [id])
+  invoiceId    String
+  status       DisputeStatus @default(OPEN)
+  reason       String?
+  reconcileKey String?       @unique
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+}
+
+model Document {
+  id        String     @id @default(cuid())
+  tenant    Tenant     @relation(fields: [tenantId], references: [id])
+  tenantId  String
+  source    DocumentSource
+  s3Key     String
+  createdAt DateTime   @default(now())
+  chunks    Embedding[]
+}
+
+// Uses pgvector; Prisma represents as Unsupported("vector")
+model Embedding {
+  id        String   @id @default(cuid())
+  document  Document @relation(fields: [documentId], references: [id])
+  documentId String
+  chunkIdx  Int
+  content   String
+  vector    Unsupported("vector")
+
+  @@unique([documentId, chunkIdx])
+}
+
+enum InvoiceStatus {
+  OPEN
+  PAID
+  DISPUTED
+}
+
+enum DisputeStatus {
+  OPEN
+  RECONCILING
+  RESOLVED
+  FAILED
+}
+
+enum DocumentSource {
+  CONTRACT
+  EMAIL
+  PURCHASE_ORDER
+}
