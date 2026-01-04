@@ -87,6 +87,15 @@ model Embedding {
   @@unique([documentId, chunkIdx])
 }
 
+model ReconcileDLQ {
+  id         String   @id @default(cuid())
+  reason     String
+  payload    Json
+  attempts   Int
+  createdAt  DateTime @default(now())
+  redrivenAt DateTime?
+}
+
 enum InvoiceStatus {
   OPEN
   PAID

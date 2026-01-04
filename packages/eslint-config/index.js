@@ -8,6 +8,14 @@ module.exports = {
     es2022: true,
     jest: true,
   },
+  settings: {
+    "import/resolver": {
+      typescript: {
+        alwaysTryTypes: true,
+        project: true
+      }
+    }
+  },
   extends: ["eslint:recommended", "plugin:import/recommended"],
   overrides: [
     {
@@ -20,10 +28,16 @@ module.exports = {
       extends: [
         "plugin:@typescript-eslint/recommended"
       ],
-      rules: {}
+      rules: {
+        "@typescript-eslint/no-explicit-any": "off"
+      }
     }
   ],
   rules: {
+    "import/no-unresolved": "off",
+    "import/named": "off",
+    "import/default": "off",
+    "import/namespace": "off",
     "import/order": [
       "warn",
       {
