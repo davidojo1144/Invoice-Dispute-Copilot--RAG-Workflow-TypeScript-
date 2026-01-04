@@ -33,7 +33,6 @@ async function getSummary() {
 
 import DashboardCharts from './widgets/DashboardCharts';
 import { Card, CardContent, CardHeader, CardTitle } from '../components/ui/card';
-import { Button } from '../components/ui/button';
 
 export default async function Page() {
   const summary = await getSummary();
