@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/ca
 import { Table, TBody, THead, TH, TR, TD } from '../../components/ui/table';
 import { Input } from '../../components/ui/input';
 import { Select } from '../../components/ui/select';
+import DataTable, { Column } from '../../components/ui/data-table';
 
 function baseUrl() {
   return process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
@@ -58,31 +59,16 @@ export default async function Page({
           <CardTitle>Invoices</CardTitle>
         </CardHeader>
         <CardContent>
-          <Table>
-            <THead>
-              <TR>
-                <TH>ID</TH>
-                <TH>Status</TH>
-                <TH>Total</TH>
-                <TH>Version</TH>
-                <TH>Actions</TH>
-              </TR>
-            </THead>
-            <TBody>
-              {items.map((inv: any) => (
-                <TR key={inv.id}>
-                  <TD>{inv.id}</TD>
-                  <TD>{inv.status}</TD>
-                  <TD>{Number(inv.totalAmount ?? inv.total_amount ?? 0).toFixed(2)}</TD>
-                  <TD>{inv.version}</TD>
-                  <TD><ReconcileButton id={inv.id} /></TD>
-                </TR>
-              ))}
-              {items.length === 0 && (
-                <TR><TD colSpan={5} className="text-muted">No invoices</TD></TR>
-              )}
-            </TBody>
-          </Table>
+          {(() => {
+            const columns: Column<any>[] = [
+              { key: 'id', header: 'ID' },
+              { key: 'status', header: 'Status' },
+              { key: 'total', header: 'Total', render: (r) => Number(r.totalAmount ?? r.total_amount ?? 0).toFixed(2) },
+              { key: 'version', header: 'Version' },
+              { key: 'actions', header: 'Actions', render: (r) => <ReconcileButton id={r.id} /> }
+            ];
+            return <DataTable data={items} columns={columns} pageSize={10} emptyMessage="No invoices" />;
+          })()}
         </CardContent>
       </Card>
     </section>

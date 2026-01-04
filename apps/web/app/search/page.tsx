@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/ca
 import { Table, THead, TBody, TR, TH, TD } from '../../components/ui/table';
 import { Button } from '../../components/ui/button';
 import { Input } from '../../components/ui/input';
+import { Tabs, TabsList, TabsTrigger, TabsContent } from '../../components/ui/tabs';
 
 export default function Page() {
   const [query, setQuery] = useState('');
@@ -32,26 +33,37 @@ export default function Page() {
           <CardTitle>Results</CardTitle>
         </CardHeader>
         <CardContent>
-          {results.length === 0 && <p className="text-muted">No results</p>}
-          {results.length > 0 && (
-            <Table>
-              <THead>
-                <TR>
-                  <TH>Doc</TH><TH>Source</TH><TH>Snippet</TH><TH>Score</TH>
-                </TR>
-              </THead>
-              <TBody>
-                {results.map((r, i) => (
-                  <TR key={i}>
-                    <TD>{r.doc_id}</TD>
-                    <TD>{r.source}</TD>
-                    <TD>{r.snippet}</TD>
-                    <TD>{r.score}</TD>
-                  </TR>
-                ))}
-              </TBody>
-            </Table>
-          )}
+          <Tabs defaultValue="table">
+            <TabsList>
+              <TabsTrigger value="table">Table</TabsTrigger>
+              <TabsTrigger value="json">JSON</TabsTrigger>
+            </TabsList>
+            <TabsContent value="table">
+              {results.length === 0 && <p className="text-muted">No results</p>}
+              {results.length > 0 && (
+                <Table>
+                  <THead>
+                    <TR>
+                      <TH>Doc</TH><TH>Source</TH><TH>Snippet</TH><TH>Score</TH>
+                    </TR>
+                  </THead>
+                  <TBody>
+                    {results.map((r, i) => (
+                      <TR key={i}>
+                        <TD>{r.doc_id}</TD>
+                        <TD>{r.source}</TD>
+                        <TD>{r.snippet}</TD>
+                        <TD>{r.score}</TD>
+                      </TR>
+                    ))}
+                  </TBody>
+                </Table>
+              )}
+            </TabsContent>
+            <TabsContent value="json">
+              <pre className="text-xs overflow-auto">{JSON.stringify(results, null, 2)}</pre>
+            </TabsContent>
+          </Tabs>
         </CardContent>
       </Card>
     </section>

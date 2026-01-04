@@ -38,6 +38,28 @@ export default async function Page() {
   const summary = await getSummary();
   return (
     <section className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <div className="md:col-span-3 rounded-xl border border-gray-200 dark:border-border bg-white dark:bg-transparent p-6">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+          <div>
+            <h2 className="text-2xl font-semibold">Welcome back</h2>
+            <p className="text-gray-600 dark:text-muted">Track invoices, disputes, and documents.</p>
+          </div>
+          <div className="grid grid-cols-3 gap-3">
+            <div className="rounded-lg border border-gray-200 dark:border-border bg-white dark:bg-card p-4">
+              <div className="text-xs text-gray-500 dark:text-muted">Invoices</div>
+              <div className="text-lg font-semibold">{summary.invoicesCount}</div>
+            </div>
+            <div className="rounded-lg border border-gray-200 dark:border-border bg-white dark:bg-card p-4">
+              <div className="text-xs text-gray-500 dark:text-muted">Disputes</div>
+              <div className="text-lg font-semibold">{summary.disputesCount}</div>
+            </div>
+            <div className="rounded-lg border border-gray-200 dark:border-border bg-white dark:bg-card p-4">
+              <div className="text-xs text-gray-500 dark:text-muted">Open</div>
+              <div className="text-lg font-semibold">{summary.statusCounts.open ?? 0}</div>
+            </div>
+          </div>
+        </div>
+      </div>
       <Card className="shadow-md">
         <CardHeader>
           <CardTitle>Invoices</CardTitle>

@@ -11,6 +11,7 @@ async function getDisputes(cursor?: string) {
 
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card';
 import { Table, TBody, THead, TH, TR, TD } from '../../components/ui/table';
+import { Popover, PopoverTrigger, PopoverContent } from '../../components/ui/popover';
 
 export default async function Page() {
   const data = await getDisputes();
@@ -38,7 +39,14 @@ export default async function Page() {
                   <TD>{d.id}</TD>
                   <TD>{d.invoiceId ?? d.invoice_id}</TD>
                   <TD>{d.status}</TD>
-                  <TD>{d.reason ?? '-'}</TD>
+                  <TD>
+                    {d.reason ? (
+                      <Popover>
+                        <PopoverTrigger className="rounded-lg border border-gray-200 dark:border-border px-2 py-1 text-xs">View</PopoverTrigger>
+                        <PopoverContent className="max-w-sm">{d.reason}</PopoverContent>
+                      </Popover>
+                    ) : '-'}
+                  </TD>
                   <TD>{d.createdAt ?? d.created_at}</TD>
                 </TR>
               ))}

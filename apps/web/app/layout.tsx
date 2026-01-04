@@ -7,11 +7,12 @@ import './globals.css';
 import { AppToaster } from '../components/ui/toaster';
 import { fontSans } from './fonts';
 import { Receipt, FileWarning, Search, FileText } from 'lucide-react';
+import ThemeToggle from '../components/ui/theme-toggle';
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body className={`${fontSans.className} min-h-screen bg-gradient-to-b from-[#0b0f14] to-[#0e1420] text-fg`}>
+    <html lang="en" className="dark">
+      <body className={`${fontSans.className} min-h-screen bg-white text-gray-900 dark:bg-gradient-to-b dark:from-[#0b0f14] dark:to-[#0e1420] dark:text-fg`}>
         <header className="sticky top-0 border-b border-border bg-card/70 backdrop-blur">
           <div className="container">
             <div className="flex items-center justify-between py-3">
@@ -22,10 +23,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <span className="text-lg font-semibold">Invoice Dispute Copilot</span>
               </div>
               <nav className="flex gap-2 text-sm">
-                <a className="text-muted hover:text-fg hover:bg-primary/20 rounded px-3 py-1.5 flex items-center gap-2" href="/"><span>Dashboard</span></a>
-                <a className="text-muted hover:text-fg hover:bg-primary/20 rounded px-3 py-1.5 flex items-center gap-2" href="/invoices"><FileText className="h-4 w-4" /><span>Invoices</span></a>
-                <a className="text-muted hover:text-fg hover:bg-primary/20 rounded px-3 py-1.5 flex items-center gap-2" href="/disputes"><FileWarning className="h-4 w-4" /><span>Disputes</span></a>
-                <a className="text-muted hover:text-fg hover:bg-primary/20 rounded px-3 py-1.5 flex items-center gap-2" href="/search"><Search className="h-4 w-4" /><span>Search</span></a>
+                <a className="text-gray-600 dark:text-muted hover:bg-blue-50 dark:hover:bg-primary/20 rounded px-3 py-1.5 flex items-center gap-2" href="/"><span>Dashboard</span></a>
+                <a className="text-gray-600 dark:text-muted hover:bg-blue-50 dark:hover:bg-primary/20 rounded px-3 py-1.5 flex items-center gap-2" href="/invoices"><FileText className="h-4 w-4" /><span>Invoices</span></a>
+                <a className="text-gray-600 dark:text-muted hover:bg-blue-50 dark:hover:bg-primary/20 rounded px-3 py-1.5 flex items-center gap-2" href="/disputes"><FileWarning className="h-4 w-4" /><span>Disputes</span></a>
+                <a className="text-gray-600 dark:text-muted hover:bg-blue-50 dark:hover:bg-primary/20 rounded px-3 py-1.5 flex items-center gap-2" href="/search"><Search className="h-4 w-4" /><span>Search</span></a>
+                <ThemeToggle />
               </nav>
             </div>
           </div>
