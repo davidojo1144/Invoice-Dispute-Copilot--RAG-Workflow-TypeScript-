@@ -1,0 +1,27 @@
+{
+  "name": "invoice-dispute-copilot",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Invoice Dispute Copilot monorepo (RAG + Workflow, TypeScript)",
+  "packageManager": "npm@10",
+  "engines": {
+    "node": ">=20"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "turbo run dev --parallel",
+    "build": "turbo run build",
+    "lint": "turbo run lint",
+    "typecheck": "turbo run typecheck",
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "turbo": "^1.12.4",
+    "typescript": "^5.6.3",
+    "eslint": "^8.57.0",
+    "prettier": "^3.3.3"
+  }
+}

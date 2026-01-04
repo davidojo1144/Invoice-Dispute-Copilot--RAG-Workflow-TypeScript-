@@ -1,0 +1,8 @@
+{
+  "name": "@idc/tsconfig",
+  "version": "0.1.0",
+  "private": true,
+  "exports": {
+    "./base": "./tsconfig.json"
+  }
+}
