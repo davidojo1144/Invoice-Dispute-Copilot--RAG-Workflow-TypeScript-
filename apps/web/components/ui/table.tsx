@@ -14,11 +14,11 @@ export function TBody({ className, ...props }: React.HTMLAttributes<HTMLTableSec
 }
 
 export function TR({ className, ...props }: React.HTMLAttributes<HTMLTableRowElement>) {
-  return <tr className={cn('border-b border-border', className)} {...props} />;
+  return <tr className={cn('border-b border-border odd:bg-[#131a24] hover:bg-[#1a2230]', className)} {...props} />;
 }
 
 export function TH({ className, ...props }: React.ThHTMLAttributes<HTMLTableCellElement>) {
-  return <th className={cn('p-3 text-left text-sm text-muted', className)} {...props} />;
+  return <th className={cn('p-3 text-left text-xs uppercase tracking-wide text-muted', className)} {...props} />;
 }
 
 export function TD({ className, ...props }: React.TdHTMLAttributes<HTMLTableCellElement>) {

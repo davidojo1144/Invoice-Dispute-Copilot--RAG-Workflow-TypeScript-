@@ -38,7 +38,7 @@ export default async function Page() {
   const summary = await getSummary();
   return (
     <section className="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <Card>
+      <Card className="shadow-md">
         <CardHeader>
           <CardTitle>Invoices</CardTitle>
         </CardHeader>
@@ -47,7 +47,7 @@ export default async function Page() {
           <a className="inline-flex items-center justify-center rounded-lg bg-primary text-white hover:bg-blue-500 h-9 px-3 py-1.5 text-sm" href="/invoices">View Invoices</a>
         </CardContent>
       </Card>
-      <Card>
+      <Card className="shadow-md">
         <CardHeader>
           <CardTitle>Disputes</CardTitle>
         </CardHeader>
@@ -56,7 +56,7 @@ export default async function Page() {
           <a className="inline-flex items-center justify-center rounded-lg bg-card text-fg hover:bg-[#1a2330] border border-border h-9 px-3 py-1.5 text-sm" href="/disputes">View Disputes</a>
         </CardContent>
       </Card>
-      <Card>
+      <Card className="shadow-md">
         <CardHeader>
           <CardTitle>Search</CardTitle>
         </CardHeader>
@@ -65,7 +65,7 @@ export default async function Page() {
           <a className="inline-flex items-center justify-center rounded-lg border border-border bg-transparent text-fg hover:bg-card h-9 px-3 py-1.5 text-sm" href="/search">Open Search</a>
         </CardContent>
       </Card>
-      <Card className="md:col-span-3">
+      <Card className="md:col-span-3 shadow-md">
         <CardHeader>
           <CardTitle>Overview</CardTitle>
         </CardHeader>

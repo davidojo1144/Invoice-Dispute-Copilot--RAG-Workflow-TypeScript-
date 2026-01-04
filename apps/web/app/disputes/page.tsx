@@ -16,8 +16,8 @@ export default async function Page() {
   const data = await getDisputes();
   const items = data.items ?? [];
   return (
-    <section>
-      <Card>
+    <section className="space-y-4">
+      <Card className="shadow-md">
         <CardHeader>
           <CardTitle>Disputes</CardTitle>
         </CardHeader>

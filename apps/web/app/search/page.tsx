@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '../../components/ui/card';
 import { Table, THead, TBody, TR, TH, TD } from '../../components/ui/table';
 import { Button } from '../../components/ui/button';
+import { Input } from '../../components/ui/input';
 
 export default function Page() {
   const [query, setQuery] = useState('');
@@ -15,18 +16,18 @@ export default function Page() {
   }
   return (
     <section className="space-y-4">
-      <Card>
+      <Card className="shadow-md">
         <CardHeader>
           <CardTitle>Search</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex gap-3">
-            <input className="rounded-lg border border-border bg-card px-2 py-1 flex-1" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Enter query..." />
+            <Input className="flex-1" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Enter query..." />
             <Button onClick={run}>Search</Button>
           </div>
         </CardContent>
       </Card>
-      <Card>
+      <Card className="shadow-md">
         <CardHeader>
           <CardTitle>Results</CardTitle>
         </CardHeader>
