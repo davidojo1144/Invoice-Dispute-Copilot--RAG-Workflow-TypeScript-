@@ -1,0 +1,27 @@
+type Invoice {
+  id: ID!
+  tenant_id: ID!
+  vendor_id: ID!
+  status: String!
+  total_amount: Float!
+  version: Int!
+  created_at: String!
+  updated_at: String!
+}
+
+type Dispute {
+  id: ID!
+  invoice_id: ID!
+  status: String!
+  reason: String
+  created_at: String!
+}
+
+type Query {
+  invoices(cursor: String): [Invoice!]!
+  dispute(id: ID!): Dispute
+}
+
+type Mutation {
+  reconcileInvoice(id: ID!): Dispute
+}
