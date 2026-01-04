@@ -1,6 +1,5 @@
 import type { FastifyInstance } from 'fastify';
 import { PrismaClient } from '@prisma/client';
-import { reconcileQueue } from './queue/reconcile';
 
 const prisma = new PrismaClient();
 
@@ -39,6 +38,7 @@ export async function registerRoutes(server: FastifyInstance) {
     const body = req.body as { version: number };
     const invoiceId = params.id;
     const version = body.version;
+    const { reconcileQueue } = await import('./queue/reconcile.js');
     await reconcileQueue.add(
       'reconcileInvoice',
       { invoiceId, version },
@@ -54,16 +54,17 @@ export async function registerRoutes(server: FastifyInstance) {
 
   server.post('/dlq/:id/redrive', async (req, reply) => {
     const params = req.params as { id: string };
-    const dlq = await prisma.reconcileDLQ.findUnique({ where: { id: params.id } });
+    const dlq = await (prisma as any).reconcileDLQ.findUnique({ where: { id: params.id } });
     if (!dlq) {
       return reply.status(404).send({ error: 'not_found' });
     }
     const payload = dlq.payload as any;
+    const { reconcileQueue } = await import('./queue/reconcile.js');
     await reconcileQueue.add('reconcileInvoice', payload, {
       attempts: 6,
       backoff: { type: 'exponential', delay: 1000 }
     });
-    await prisma.reconcileDLQ.update({
+    await (prisma as any).reconcileDLQ.update({
       where: { id: params.id },
       data: { redrivenAt: new Date() }
     });
@@ -72,7 +73,6 @@ export async function registerRoutes(server: FastifyInstance) {
 
   server.get('/search', async (req) => {
     const query = req.query as { query: string };
-    // Stub search; RAG retrieval implemented later
     return { query: query.query, hits: [] };
   });
 }

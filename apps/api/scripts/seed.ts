@@ -88,20 +88,18 @@ async function main() {
     );
 
     for (const doc of docs) {
-      // Create a few dummy chunks; we skip vector data for now
       const chunks = Array.from({ length: 5 }).map((_, idx) => ({
         documentId: doc.id,
         chunkIdx: idx,
         content: faker.lorem.paragraph()
       }));
-      // Prisma does not support writing pgvector via the client yet; you can add vectors later in ingestion.
       for (const c of chunks) {
         await prisma.embedding.create({
           data: {
             documentId: c.documentId,
             chunkIdx: c.chunkIdx,
             content: c.content,
-            vector: undefined as any // placeholder; to be updated by ingestion
+            vector: undefined as any
           }
         });
       }
@@ -112,11 +110,9 @@ async function main() {
 main()
   .then(async () => {
     await prisma.$disconnect();
-    // eslint-disable-next-line no-console
     console.log('Seed completed');
   })
   .catch(async (e) => {
-    // eslint-disable-next-line no-console
     console.error(e);
     await prisma.$disconnect();
     process.exit(1);

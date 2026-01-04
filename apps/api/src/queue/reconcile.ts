@@ -36,12 +36,10 @@ async function processJob(job: Job<ReconcileJobData>) {
         }
       }));
 
-    // Simulate reconciliation reducer: verify totals match line items
     const lineItems = await prisma.invoiceLineItem.findMany({ where: { invoiceId } });
     const computedTotal = lineItems.reduce((acc, li) => acc + Number(li.total), 0);
     const invoice = await prisma.invoice.findUniqueOrThrow({ where: { id: invoiceId } });
 
-    // Partial failure: if small mismatch, record reason but mark resolved
     const mismatch = Math.abs(Number(invoice.totalAmount) - computedTotal) > 0.01;
     if (mismatch) {
       await prisma.dispute.update({

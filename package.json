@@ -19,7 +19,8 @@
     "format": "prettier --write .",
     "gen:openapi": "openapi-typescript apps/api/openapi.yaml -o apps/web/src/api/openapi-types.ts",
     "gen:graphql": "graphql-codegen --config apps/web/codegen.ts",
-    "gen:api": "npm run gen:openapi && npm run gen:graphql"
+    "gen:api": "npm run gen:openapi && npm run gen:graphql",
+    "load:k6": "k6 run apps/api/k6/reconcile.js"
   },
   "devDependencies": {
     "turbo": "^1.12.4",

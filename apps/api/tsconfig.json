@@ -3,7 +3,9 @@
   "extends": "../../packages/tsconfig/tsconfig.json",
   "compilerOptions": {
     "outDir": "dist",
-    "types": ["node"]
+    "types": ["node", "jest"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler"
   },
   "include": ["src/**/*.ts"]
 }
